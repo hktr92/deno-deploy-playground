@@ -11,6 +11,7 @@ class Endpoint {
     }
 
     default() {
+        const user = _escape('<script>alert("world")</script>')
         return { status: true, data: { message: `hello, ${user}!` } }
     }
 }
