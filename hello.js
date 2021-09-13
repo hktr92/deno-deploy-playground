@@ -4,12 +4,16 @@ class Endpoint {
     }
 
     default() {
-        const user = (this._url.searchParams.get('name') ?? 'world')
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;")
+        if (!this._url.searchParams) {
+            const user = (this._url.searchParams.get('name') ?? 'world')
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;")
+        } else {
+            const user = 'world'
+        }
 
         return { status: true, data: { message: `hello, ${user}!` } }
     }
