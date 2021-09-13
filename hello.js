@@ -1,8 +1,43 @@
+class Endpoint {
+    constructor(url) {
+        this._url = url
+    }
+
+    default() {
+        const user = (url.searchParams.get('name') ?? 'world')
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;")
+
+        return { status: true, data: { message: `hello, ${user}!` } }
+    }
+}
+
+const router = (urlObject) => {
+    const { pathname } = urlObject
+    const endpoint = new Endpoint(urlObject)
+    const pathMap = {
+        "/": endpoint.default,
+        "/hello": endpoint.default
+    }
+
+    if (pathMap[pathname]) {
+        return pathMap[pathname]()
+    } else {
+        return {
+            status: false,
+            error: {
+                message: "page not found"
+            }
+        }
+    }
+}
+
 function handleRequest(request) {
     const url = new URL(request.url);
-    const user = url.searchParams.get('name') ?? 'world'
-    const html = `<html><body><h1>Hello, ${user}!</h1></body></html>`
-    return new Response(html, { headers: { "content-type": "text/html; charset=UTF-8" }});
+    return new Response(router(url), { headers: { "content-type": "application/json" }});
 }
 
 addEventListener("fetch", event => {
