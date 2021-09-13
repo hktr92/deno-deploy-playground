@@ -38,7 +38,7 @@ const router = (urlObject) => {
 
 function handleRequest(request) {
     const url = new URL(request.url);
-    return new Response(router(url), { headers: { "content-type": "application/json" }});
+    return new Response(JSON.stringify(router(url)), { headers: { "content-type": "application/json" }});
 }
 
 addEventListener("fetch", event => {
