@@ -4,7 +4,7 @@ class Endpoint {
     }
 
     default() {
-        const user = (url.searchParams.get('name') ?? 'world')
+        const user = (this._url.searchParams.get('name') ?? 'world')
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
