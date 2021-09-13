@@ -1,20 +1,16 @@
+const _escape = string => string
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+
 class Endpoint {
     constructor(url) {
         this._url = url
     }
 
     default() {
-        if (!this._url.searchParams) {
-            const user = (this._url.searchParams.get('name') ?? 'world')
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;")
-        } else {
-            const user = 'world'
-        }
-
         return { status: true, data: { message: `hello, ${user}!` } }
     }
 }
